@@ -44,4 +44,14 @@ public class FitnessClass {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> attendees = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "fitness_class_waitlist",
+            joinColumns = @JoinColumn(name = "fitness_class_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> waitlist = new ArrayList<>();
+
+
 }

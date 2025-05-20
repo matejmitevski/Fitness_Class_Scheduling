@@ -4,6 +4,7 @@ import com.fitness.classscheduler.dto.FitnessClassDto;
 import com.fitness.classscheduler.model.FitnessClass;
 import com.fitness.classscheduler.model.User;
 import com.fitness.classscheduler.service.FitnessClassService;
+import com.fitness.classscheduler.dto.BulkEnrollmentDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,4 +60,54 @@ public class FitnessClassController {
         service.removeAttendee(classId, userId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{classId}/attendees/bulk")
+    public ResponseEntity<FitnessClassDto> enrollUsersBulk(
+            @PathVariable Long classId,
+            @RequestBody @Valid BulkEnrollmentDto bulkDto) {
+
+        // Convert UserDto to User model
+        List<User> users = bulkDto.getUsers().stream()
+                .map(dto -> {
+                    User user = new User();
+                    user.setId(dto.getId());  // might be null
+                    user.setName(dto.getName());
+                    user.setEmail(dto.getEmail());
+                    // other fields if any
+                    return user;
+                })
+                .toList();
+
+        FitnessClass fc = service.enrollUsersBulk(classId, users);
+        return ResponseEntity.ok(service.toDto(fc));
+    }
+
+    @PatchMapping("/{classId}")
+    public ResponseEntity<FitnessClassDto> patchClass(@PathVariable Long classId, @RequestBody FitnessClassDto dto) {
+        FitnessClass updatedClass = service.updateClassPartial(classId, dto);
+        return ResponseEntity.ok(service.toDto(updatedClass));
+    }
+
+    // Get waitlist for class
+    @GetMapping("/{classId}/waitlist")
+    public ResponseEntity<List<User>> getWaitlist(@PathVariable Long classId) {
+        List<User> waitlist = service.getWaitlist(classId);
+        return ResponseEntity.ok(waitlist);
+    }
+
+    // Add user to waitlist
+    @PostMapping("/{classId}/waitlist")
+    public ResponseEntity<FitnessClassDto> addToWaitlist(@PathVariable Long classId, @RequestBody User user) {
+        FitnessClass updatedClass = service.addToWaitlist(classId, user);
+        return ResponseEntity.ok(service.toDto(updatedClass));
+    }
+
+    // Remove user from waitlist
+    @DeleteMapping("/{classId}/waitlist/{userId}")
+    public ResponseEntity<Void> removeFromWaitlist(@PathVariable Long classId, @PathVariable Long userId) {
+        service.removeFromWaitlist(classId, userId);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

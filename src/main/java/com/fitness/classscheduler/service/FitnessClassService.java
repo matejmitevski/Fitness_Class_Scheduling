@@ -89,4 +89,72 @@ public class FitnessClassService {
         return dto;
     }
 
+    public FitnessClass enrollUsersBulk(Long classId, List<User> users) {
+        FitnessClass fc = getById(classId);
+
+        for (User user : users) {
+            User savedUser;
+            if (user.getId() != null) {
+                // Existing user, fetch from DB
+                savedUser = userRepository.findById(user.getId())
+                        .orElseThrow(() -> new RuntimeException("User not found: " + user.getId()));
+            } else {
+                // New user, save to DB
+                savedUser = userRepository.save(user);
+            }
+            if (!fc.getAttendees().contains(savedUser)) {
+                fc.getAttendees().add(savedUser);
+            }
+        }
+        return repository.save(fc);
+    }
+
+    public FitnessClass updateClassPartial(Long classId, FitnessClassDto dto) {
+        FitnessClass fc = getById(classId);
+
+        if (dto.getTitle() != null) {
+            fc.setTitle(dto.getTitle());
+        }
+        if (dto.getStartTime() != null) {
+            fc.setStartTime(dto.getStartTime());
+        }
+        if (dto.getEndTime() != null) {
+            fc.setEndTime(dto.getEndTime());
+        }
+        if (dto.getCapacity() != null) {
+            fc.setCapacity(dto.getCapacity());
+        }
+        if (dto.getInstructorId() != null) {
+            Instructor instructor = instructorRepository.findById(dto.getInstructorId())
+                    .orElseThrow(() -> new RuntimeException("Instructor not found"));
+            fc.setInstructor(instructor);
+        }
+
+        return repository.save(fc);
+    }
+
+    // Get waitlist users of a class
+    public List<User> getWaitlist(Long classId) {
+        FitnessClass fc = getById(classId);
+        return fc.getWaitlist();
+    }
+
+    // Add user to waitlist
+    public FitnessClass addToWaitlist(Long classId, User user) {
+        FitnessClass fc = getById(classId);
+        User savedUser = userRepository.save(user);
+
+        if (!fc.getWaitlist().contains(savedUser)) {
+            fc.getWaitlist().add(savedUser);
+        }
+        return repository.save(fc);
+    }
+
+    // Remove user from waitlist
+    public FitnessClass removeFromWaitlist(Long classId, Long userId) {
+        FitnessClass fc = getById(classId);
+        fc.getWaitlist().removeIf(user -> user.getId().equals(userId));
+        return repository.save(fc);
+    }
+
 }

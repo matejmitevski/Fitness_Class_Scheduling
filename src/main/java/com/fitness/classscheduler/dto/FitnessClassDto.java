@@ -9,9 +9,10 @@ public class FitnessClassDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Long instructorId; // CHANGED
-    private int capacity;
+    private Integer capacity;
     private String status;
     private List<Long> attendeeIds;
+    private List<UserDto> users;
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -29,7 +30,7 @@ public class FitnessClassDto {
     public Long getInstructorId() { return instructorId; }
     public void setInstructorId(Long instructorId) { this.instructorId = instructorId; }
 
-    public int getCapacity() { return capacity; }
+    public Integer getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
     public String getStatus() { return status; }
