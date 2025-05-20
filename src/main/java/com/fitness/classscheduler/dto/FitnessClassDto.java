@@ -8,73 +8,33 @@ public class FitnessClassDto {
     private String title;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private String instructorName;
+    private Long instructorId; // CHANGED
     private int capacity;
     private String status;
     private List<Long> attendeeIds;
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getTitle() {
-        return title;
-    }
+    public LocalDateTime getStartTime() { return startTime; }
+    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public LocalDateTime getEndTime() { return endTime; }
+    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
+    public Long getInstructorId() { return instructorId; }
+    public void setInstructorId(Long instructorId) { this.instructorId = instructorId; }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
+    public int getCapacity() { return capacity; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getInstructorName() {
-        return instructorName;
-    }
-
-    public void setInstructorName(String instructorName) {
-        this.instructorName = instructorName;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Long> getAttendeeIds() {
-        return attendeeIds;
-    }
-
-    public void setAttendeeIds(List<Long> attendeeIds) {
-        this.attendeeIds = attendeeIds;
-    }
+    public List<Long> getAttendeeIds() { return attendeeIds; }
+    public void setAttendeeIds(List<Long> attendeeIds) { this.attendeeIds = attendeeIds; }
 }

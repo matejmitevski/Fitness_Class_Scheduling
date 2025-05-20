@@ -19,10 +19,11 @@ public class FitnessClassController {
     private FitnessClassService service;
 
     @PostMapping
-    public ResponseEntity<FitnessClassDto> create(@Valid @RequestBody FitnessClass fc) {
-        FitnessClass created = service.create(fc);
+    public ResponseEntity<FitnessClassDto> create(@Valid @RequestBody FitnessClassDto dto) {
+        FitnessClass created = service.createFromDto(dto);
         return ResponseEntity.ok(service.toDto(created));
     }
+
 
     @GetMapping
     public List<FitnessClassDto> getAll() {
