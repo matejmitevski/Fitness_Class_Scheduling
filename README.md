@@ -15,6 +15,12 @@ POST /classes/{class_id}/attendees/bulk
 GET /classes/{class_id}/attendees
 DELETE /classes/{class_id}/attendees/{attendee_id}
 
+CANCEL CLASS
+PATCH /classes/{class_id}/cancel
+
+SUMMARY of CLASS
+GET /classes/{class_id}/summary
+
 WAITLIST ENDPOINTS
 POST /classes/{class_id}/waitlist
 GET /classes/{class_id}/waitlist
