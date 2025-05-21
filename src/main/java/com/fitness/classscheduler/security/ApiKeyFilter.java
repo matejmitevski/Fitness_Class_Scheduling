@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class ApiKeyFilter extends OncePerRequestFilter {
 
-    private static final String API_KEY = "123456"; // Replace with env var in production
+    private static final String API_KEY = "123456";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

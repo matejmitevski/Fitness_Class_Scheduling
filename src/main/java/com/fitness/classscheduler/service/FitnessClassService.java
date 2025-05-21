@@ -9,7 +9,11 @@ import com.fitness.classscheduler.repository.InstructorRepository;
 import com.fitness.classscheduler.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.List;
 
@@ -80,6 +84,7 @@ public class FitnessClassService {
         dto.setInstructorId(fc.getInstructor().getId()); // Updated
         dto.setCapacity(fc.getCapacity());
         dto.setStatus(fc.getStatus());
+        dto.setCanceled(fc.isCanceled());
 
         List<Long> attendeeIds = fc.getAttendees().stream()
                 .map(User::getId)
@@ -157,4 +162,26 @@ public class FitnessClassService {
         return repository.save(fc);
     }
 
+    public void cancelClass(Long classId) {
+        FitnessClass fitnessClass = repository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Class not found"));
+        fitnessClass.setCanceled(true);
+        repository.save(fitnessClass);
+    }
+
+    public Map<String, Object> getClassSummary(Long classId) {
+        FitnessClass fitnessClass = repository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Class not found"));
+
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("classTitle", fitnessClass.getTitle());
+        summary.put("enrolledCount", fitnessClass.getAttendees().size());
+        summary.put("waitlistCount", fitnessClass.getWaitlist().size());
+        summary.put("isCanceled", fitnessClass.isCanceled());
+
+        return summary;
+    }
+
+
 }
+

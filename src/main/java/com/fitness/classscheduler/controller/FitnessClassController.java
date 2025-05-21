@@ -6,6 +6,7 @@ import com.fitness.classscheduler.model.User;
 import com.fitness.classscheduler.service.FitnessClassService;
 import com.fitness.classscheduler.dto.BulkEnrollmentDto;
 import jakarta.validation.Valid;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -107,6 +108,17 @@ public class FitnessClassController {
     public ResponseEntity<Void> removeFromWaitlist(@PathVariable Long classId, @PathVariable Long userId) {
         service.removeFromWaitlist(classId, userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<String> cancelClass(@PathVariable Long id) {
+        service.cancelClass(id);
+        return ResponseEntity.ok("Class canceled successfully.");
+    }
+
+    @GetMapping("/{id}/summary")
+    public ResponseEntity<Map<String, Object>> getClassSummary(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getClassSummary(id));
     }
 
 

@@ -53,5 +53,7 @@ public class FitnessClass {
     )
     private List<User> waitlist = new ArrayList<>();
 
+    @Column
+    private boolean canceled=false;
 
 }

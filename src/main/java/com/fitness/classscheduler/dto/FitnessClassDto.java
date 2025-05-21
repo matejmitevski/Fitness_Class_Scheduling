@@ -38,4 +38,8 @@ public class FitnessClassDto {
 
     public List<Long> getAttendeeIds() { return attendeeIds; }
     public void setAttendeeIds(List<Long> attendeeIds) { this.attendeeIds = attendeeIds; }
+
+    private boolean canceled;
+    public boolean isCanceled() { return canceled; }
+    public void setCanceled(boolean canceled) { this.canceled = canceled; }
 }
